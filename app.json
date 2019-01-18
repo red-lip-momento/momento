@@ -23,7 +23,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.memento.memento",
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyBmmaik1ATZLMQj0uCJ5_blkFZv2QsIWTk"
+      }
     }
   }
 }
