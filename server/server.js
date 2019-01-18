@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const { PORT } = process.env;
+const storyRouter = require('./routers/storyRouter.js');
 
 
 // apply global middlewares
@@ -11,6 +12,9 @@ app.use(bodyParser.json());
 
 // initial test route
 app.get('/', (req, res) => res.send('👄🦇🐠'));
+
+// route requests to '/story' to storyRouter
+app.use('/story', storyRouter);
 
 
 // NO ROUTES BELOW HERE
