@@ -36,5 +36,5 @@ class HomeDisplay extends Component {
          height: "100%",
          width:"100%"
      } 
- })
+ });
  export default  HomeDisplay;
