@@ -13,13 +13,13 @@ const logger = (req, res, next) => {
 
 
 // get a single story
-router.get('/', storyController.getStoryData, (req, res) => res.send('here\'s your story!'));
+router.post('/', storyController.getStoryData, (req, res) => res.send('here\'s your story!'));
 
 // create a single story
-router.post('/', logger, storyController.create, (req, res) => res.send('saved your story!'));
+router.post('/create', logger, storyController.create, (req, res) => res.send('saved your story!'));
 
 // get all (nearby) story pins
-router.get('/all', storyController.getAllNearby, (req, res) => res.send('I got you all these ding dang stories!'));
+router.post('/all', storyController.getAllNearby, (req, res) => res.json(res.locals.allPins));
 
 // generic test route '/story/test'
 router.get('/test', (req, res) => res.send('👄🦇🐠\n🐠👄🦇\n🦇🐠👄\n'));
