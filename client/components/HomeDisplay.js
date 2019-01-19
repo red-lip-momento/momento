@@ -10,35 +10,21 @@ class HomeDisplay extends Component {
     super(props);
   }
 
-  /*
-        props {
-            userLocation: {
-                latitiude: 1232,
-                longitude: 12321
-            },
-            usersPlaces: [],
-            createMemento: function() {
-                does xxyz
-            }
-        }
-
-
-    */
   render() {
 
     let userLocationMarker = null;
     if (this.props.userLocation) {
       userLocationMarker = (
-<MapView.Marker 
+        <MapView.Marker 
           coordinate={this.props.userLocation} 
         //   image={require('../../assets/small-gift-box.png')}
           onPress = {this.props.displayMemento}
-          />
+        />
 );
     }
-    const usersMarkers = this.props.usersPlaces.map(userPlace => (
-          <MapView.Marker coordinate={userPlace} key={userPlace.id} />
-    ));
+    // const usersMarkers = this.props.allMarkers.map(userPlace => (
+    //       <MapView.Marker coordinate={userPlace} key={userPlace.id} />
+    // ));
 
     // const { uLatitude, uLongitude} = this.props.userLocation;
   
