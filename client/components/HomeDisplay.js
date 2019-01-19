@@ -12,19 +12,46 @@ class HomeDisplay extends Component {
 
   render() {
 
-    let userLocationMarker = null;
+    let markers =[];
+
     if (this.props.userLocation) {
-      userLocationMarker = (
+      let {innerPins, outerPins} = this.props.allMarkers;
+
+      innerPins.map(pins => {
+        let coord = {
+          latitude: pins.lat,
+          longitude: pins.lng,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }
+        markers.push(
         <MapView.Marker 
-          coordinate={this.props.userLocation} 
-        //   image={require('../../assets/small-gift-box.png')}
-          onPress = {this.props.displayMemento}
-        />
-);
+        coordinate={coord} 
+        key={pins._id} 
+        pinColor="red" 
+        onPress={this.props.displayMemento} 
+        />);
+
+      });
+
+      outerPins.map(pins => {
+        let coord = {
+          latitude: pins.lat,
+          longitude: pins.lng,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }
+        markers.push(
+        <MapView.Marker 
+        coordinate={coord} 
+        key={pins._id} 
+        pinColor="blue" 
+        />);
+
+      });
+      
     }
-    // const usersMarkers = this.props.allMarkers.map(userPlace => (
-    //       <MapView.Marker coordinate={userPlace} key={userPlace.id} />
-    // ));
+    
 
     // const { uLatitude, uLongitude} = this.props.userLocation;
   
@@ -40,8 +67,7 @@ class HomeDisplay extends Component {
                       longitudeDelta: 0.0421,
                     }}
                 >
-                  {userLocationMarker}
-                  {usersMarkers}
+                  {markers}
                   <TouchableOpacity style={styles.button} onPress={this.props.createMemento}>
                   <Text style={styles.text}> Leave a Memento </Text>
                 </TouchableOpacity>
