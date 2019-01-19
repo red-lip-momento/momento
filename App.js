@@ -10,8 +10,11 @@ import FetchLocation from './client/components/FetchLocation.js';
 export default class App extends React.Component {
   
   state={
-    userLatitude: null,
-    userLongitude:null
+    userLocation: null,
+    usersPlaces: [],
+    viewHome: true,
+    viewCreate: false,
+    viewMemento: false
   }
 
   //Handler for getting user location
@@ -19,30 +22,73 @@ getUserLocationHandler = () => {
   navigator.geolocation.getCurrentPosition(position => {
     console.log(position)
     this.setState({
-      userLatitude: position.coords.latitude,
-      userLongitude: position.coords.longitude
+     userLocation: {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+      latitudeDelta: 0.0622,
+      longitudeDelta: 0.0421
+     }
     })
-    
-    // this.setState({
-    //   userLocation:{
-    //     latitude: position.coords.latitude,
-    //     longitude: position.coords.longitude,
-    //     latitudeDelta: 0.05,
-    //     longitudeDelta: 0.05
-    //   }
-    // });
   }, err => console.log(err));
+}
+componentDidMount() {
+  this.getUserLocationHandler();
 }
 
 
+//Handler for creating memento
+createMemento = () => {
+  this.setState({
+    viewHome:false,
+    viewCreate:true,
+    viewMemento:false
+  })
+
+}
+
+//Handler for displaying the Home Screen
+displayHome = () => {
+  this.setState({
+    viewHome:true,
+    viewCreate:false,
+    viewMemento:false
+  })
+}
+
+//Handler for displaying the View Momento Screen
+displayMemento = () =>{
+  this.setState({
+    viewHome:false,
+    viewCreate:false,
+    viewMemento:true
+  })
+}
+
   render() {
+    //Conditional Render statement
+    let componentArr = [];
+    if(this.state.viewHome){
+      componentArr.push(<HomeDisplay userLocation={this.state.userLocation} usersPlaces ={this.state.usersPlaces}
+      createMemento={this.createMemento}
+      displayMemento={this.displayMemento}
+      />)
+    }else if(this.state.viewCreate){
+      componentArr.push(<HomeDisplay userLocation={this.state.userLocation} usersPlaces ={this.state.usersPlaces}
+        createMemento={this.createMemento}
+        displayMemento={this.displayMemento}
+        />)
+      componentArr.push(<CreateDisplay displayHome={this.displayHome}/>)
+    }else if(this.state.viewMemento){
+      componentArr.push(<HomeDisplay userLocation={this.state.userLocation} usersPlaces ={this.state.usersPlaces}
+        createMemento={this.createMemento}
+        displayMemento={this.displayMemento}
+        />)
+      componentArr.push(<ViewDisplay displayHome={this.displayHome}/>)
+    }
+
     return (
       <View style={styles.container}>
-        <Text>Current Lat is {this.state.userLatitude} Current Long is {this.state.userLongitude}</Text>
-        <FetchLocation onGetLocation={this.getUserLocationHandler}/>
-        {/* <HomeDisplay userLocation={this.userLocation}/> */}
-        {/* <CreateDisplay/> */}
-        <ViewDisplay/>
+        {componentArr}
       </View>
     );
   }
