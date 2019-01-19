@@ -67,25 +67,28 @@ class HomeDisplay extends Component {
   
     return (
            <View style={styles.mapContainer}>
-               <MapView
-                  style={styles.map}
-                  provider="google"
-                  initialRegion={{
-                      latitude: 33.988,
-                      longitude: -118.47099,
-                      latitudeDelta: 0.0922,
-                      longitudeDelta: 0.0421,
-                    }}
-                >
-                  {markers}
-                  <TouchableOpacity style={styles.button} onPress={this.props.createMemento}>
-                  <Text style={styles.text}> Leave a Memento </Text>
-                </TouchableOpacity>
-                </MapView>
-
-
-
-             </View>
+            <StatusBar barStyle='light-content' /> 
+            <View style={styles.header}>
+              <Text style={styles.title}>
+                momento
+              </Text>
+            </View>
+            <MapView
+              style={styles.map}
+              provider="google"
+              initialRegion={{
+                latitude: 33.988,
+                longitude: -118.47099,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+            >
+              {markers}
+            </MapView>
+            <TouchableOpacity style={styles.button} onPress={this.props.createMemento}>
+              <Text style={styles.text}> Leave a Memento </Text>
+            </TouchableOpacity>
+          </View>
 
     );
   }

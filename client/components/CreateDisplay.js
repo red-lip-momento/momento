@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native';
 import Modal from "react-native-modal";
+import { BlurView } from 'expo';
 import { TextInput } from 'react-native-gesture-handler';
 import FetchButton from './FetchTestButton.js';
 
@@ -29,8 +30,8 @@ class CreateDisplay extends Component {
           onSwipe={() =>this.props.displayHome() }
           swipeDirection="left"
         >
-          <View style={{ flex: 1, backgroundColor:'white' }}>
-            <View>
+          <BlurView style={styles.card} tint="light" intensity={80}>
+            <View style={styles.form}>
               <TextInput 
               style={{height: 40}}
               placeholder="Write your title!"
@@ -47,11 +48,10 @@ class CreateDisplay extends Component {
 
             </View>
             {/* <TouchableOpacity onPress={this.props.displayHome }> */}
-            <TouchableOpacity onPress={this.props.submit}>
-              <Text>Submit</Text>
+            <TouchableOpacity style={styles.submit} onPress={this.props.submit}>
+              <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
-            <FetchButton />
-          </View>
+          </BlurView>
         </Modal>
       </View>
     );
@@ -59,7 +59,28 @@ class CreateDisplay extends Component {
 }
 
 const styles = StyleSheet.create({
-  
+  card: {
+    margin: '10%',
+    width: '80%',
+    height: '70%',
+    marginTop: '-5%',
+    borderRadius: 12,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    // flex: 1,
+  },
+  form: {
+    marginTop: "12%"
+  },
+  submit: {
+
+  },
+  buttonText: {
+    fontSize: 16,
+    color: 'rgba(81, 146, 184, 1)'
+  }
+
 })
  
 export default CreateDisplay;
