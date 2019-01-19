@@ -1,12 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import HomeDisplay from './client/components/HomeDisplay.js'
-
+import CreateDisplay from './client/components/CreateDisplay.js'
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <HomeDisplay />
+        <Text>Hello </Text>
+        {/* <HomeDisplay /> */}
+        <CreateDisplay/>
       </View>
     );
   }
