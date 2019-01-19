@@ -20,7 +20,7 @@ router.post('/', storyController.getAllNearby, storyController.getInnerAndOuterP
   })})
 
 // create a single story
-router.post('/create', logger, storyController.create, (req, res) => res.send('saved your story!'));
+router.post('/create', logger, storyController.create, (req, res) => res.sendStatus(200));
 
 // get all (nearby) story pins   MERGED ALL INTO ONE REQUEST.... the '/'
 // router.post('/all', storyController.getAllNearby, (req, res) => res.json(res.locals.allPins));
