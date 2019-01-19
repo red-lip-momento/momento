@@ -13,13 +13,17 @@ const logger = (req, res, next) => {
 
 
 // get a single story
-router.post('/', storyController.getStoryData, (req, res) => res.send('here\'s your story!'));
+router.post('/', storyController.getAllNearby, storyController.getInnerAndOuterPins, (req, res) => {
+  res.json( {
+    outerPins: res.locals.outerPins,
+    innerPins: res.locals.innerPins
+  })})
 
 // create a single story
 router.post('/create', logger, storyController.create, (req, res) => res.sendStatus(200));
 
-// get all (nearby) story pins
-router.post('/all', storyController.getAllNearby, (req, res) => res.json(res.locals.allPins));
+// get all (nearby) story pins   MERGED ALL INTO ONE REQUEST.... the '/'
+// router.post('/all', storyController.getAllNearby, (req, res) => res.json(res.locals.allPins));
 
 // generic test route '/story/test'
 router.get('/test', (req, res) => res.send('👄🦇🐠\n🐠👄🦇\n🦇🐠👄\n'));
