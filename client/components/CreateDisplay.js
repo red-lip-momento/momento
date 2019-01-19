@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native';
 import Modal from "react-native-modal";
 import { TextInput } from 'react-native-gesture-handler';
+import FetchButton from './FetchTestButton.js';
+
 
 class CreateDisplay extends Component {
   state = {
@@ -48,6 +50,7 @@ class CreateDisplay extends Component {
             <TouchableOpacity onPress={this.props.submit}>
               <Text>Submit</Text>
             </TouchableOpacity>
+            <FetchButton />
           </View>
         </Modal>
       </View>
