@@ -18,7 +18,15 @@ export default class App extends React.Component {
     viewHome: true,
     viewCreate: false,
     viewMemento: false,
-    api: 'https://brave-sloth-74.localtunnel.me', // option 1: need start localtunnel before react dev server
+    currentMomento: {
+      title: 'I love pizza and tacos',
+      story: '🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮',
+      storyId: 13,
+      lat: 33.563760,
+      lng: -118.241900,
+      createdAt: '2019-01-19 10:42:00+00',
+    },
+    api: 'https://little-gecko-81.localtunnel.me', // option 1: need start localtunnel before react dev server
     // option 2: the line below will resolve to the IP address of the computer at runtime.
     // if the express server is also running at port 3000
     // the app can make fetch requests to the server 
