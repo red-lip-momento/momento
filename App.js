@@ -18,8 +18,12 @@ export default class App extends React.Component {
     viewHome: true,
     viewCreate: false,
     viewMemento: false,
-    // api: '192.168.0.95/3000/story',
-    api: `http://${Constants.manifest.debuggerHost.split(':').shift().concat(':3000')}`,
+    api: 'https://brave-sloth-74.localtunnel.me', // option 1: need start localtunnel before react dev server
+    // option 2: the line below will resolve to the IP address of the computer at runtime.
+    // if the express server is also running at port 3000
+    // the app can make fetch requests to the server 
+    // as long as they are connected to the same wifi network
+    // api: `http://${Constants.manifest.debuggerHost.split(':').shift().concat(':3000')}`,
   }
 
   //Handler for getting user location
