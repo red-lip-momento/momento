@@ -16,7 +16,7 @@ const logger = (req, res, next) => {
 router.post('/', storyController.getStoryData, (req, res) => res.send('here\'s your story!'));
 
 // create a single story
-router.post('/create', logger, storyController.create, (req, res) => res.send('saved your story!'));
+router.post('/create', logger, storyController.create, (req, res) => res.sendStatus(200));
 
 // get all (nearby) story pins
 router.post('/all', storyController.getAllNearby, (req, res) => res.json(res.locals.allPins));
