@@ -14,7 +14,7 @@ export default class App extends React.Component {
     title:'',
     story:'',
     userLocation: null,
-    usersPlaces: [],
+    allMarkers: {},
     viewHome: true,
     viewCreate: false,
     viewMemento: false,
@@ -29,20 +29,38 @@ export default class App extends React.Component {
   //Handler for getting user location
 getUserLocationHandler = () => {
   navigator.geolocation.getCurrentPosition(position => {
-    console.log(position)
+    let collection ={};
+    console.log('lat: ', position.latitude);
+    collection.lat = position.coords.latitude;
+    collection.lng = position.coords.longitude;
+    var url = 'http://192.168.0.95:3000/story/all';
+  fetch(url, {
+    method: 'POST', // or 'PUT'
+    headers:{
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(collection), // data can be `string` or {object}!
+  }).then(res => res.json())
+    .then(response => {
     this.setState({
-     userLocation: {
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-      latitudeDelta: 0.0622,
-      longitudeDelta: 0.0421
-     }
-    })
+      userLocation: {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: 0.0622,
+        longitudeDelta: 0.0421
+       },
+      allMarkers: response
+    });
+  })
+  .catch(error => console.log('Error:', JSON.stringify(error)));
   }, err => console.log(err));
 }
+
+
 componentDidMount() {
   this.getUserLocationHandler();
-  console.log(Constants.manifest.packagerOpts);
+  // this.g etAllStories();
 }
 
 
@@ -93,23 +111,54 @@ submit = () => {
   let collection ={};
   collection.title = this.state.title;
   collection.story = this.state.story;
-  console.log("memento form data:", collection)
+  collection.lat = this.state.userLocation.latitude;
+  collection.lng = this.state.userLocation.longitude;
+
+  console.log("memento form data:", collection);
 
   this.displayHome();
 
   //Fetch-POST request
-  // var url = '';
-  // var data = collection;
+  var url = 'http://192.168.0.95:3000/story/create';
+  var data = collection;
 
-  // fetch(url, {
-  //   method: 'POST', // or 'PUT'
-  //   body: JSON.stringify(data), // data can be `string` or {object}!
-  //   headers:{
-  //     'Content-Type': 'application/json'
-  //   }
-  // }).then(res => res.json())
-  // .then(response => console.log('Success:', JSON.stringify(response)))
-  // .catch(error => console.error('Error:', error));
+
+  fetch(url, {
+    method: 'POST', // or 'PUT'
+    headers:{
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data), // data can be `string` or {object}!
+  }).then(res => res.json())
+  .then(response => console.log('Success:', response))
+  .catch(error => console.log('Error:', JSON.stringify(error)));
+}
+
+//Event Handler to get all markers to display on map
+getAllStories = (postion) => {
+  let collection ={};
+  if(this.state.userLocation){
+
+  collection.lat = this.state.userLocation.latitude;
+  collection.lng = this.state.userLocation.longitude;
+
+  var url = 'http://192.168.0.95:3000/story/all';
+  fetch(url, {
+    method: 'POST', // or 'PUT'
+    headers:{
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(collection), // data can be `string` or {object}!
+  }).then(res => res.json())
+  .then(response => {
+    this.setState({
+      allMarkers: response
+    })
+  })
+  .catch(error => console.log('Error:', JSON.stringify(error)));
+}
 }
 
 
@@ -118,19 +167,21 @@ submit = () => {
     //Conditional Render statement
     let componentArr = [];
     if(this.state.viewHome){
-      componentArr.push(<HomeDisplay userLocation={this.state.userLocation} usersPlaces ={this.state.usersPlaces}
+      componentArr.push(<HomeDisplay 
+      userLocation={this.state.userLocation} 
+      allMarkers ={this.state.allMarkers}
       createMemento={this.createMemento}
       displayMemento={this.displayMemento}
       />)
     }else if(this.state.viewCreate){
-      componentArr.push(<HomeDisplay userLocation={this.state.userLocation} usersPlaces ={this.state.usersPlaces}
+      componentArr.push(<HomeDisplay userLocation={this.state.userLocation} allMarkers ={this.state.allMarkers}
         createMemento={this.createMemento}
         displayMemento={this.displayMemento}
         api={this.state.api}
         />)
       componentArr.push(<CreateDisplay displayHome={this.displayHome} updateValue={this.updateValue} submit={this.submit}/>)
     }else if(this.state.viewMemento){
-      componentArr.push(<HomeDisplay userLocation={this.state.userLocation} usersPlaces ={this.state.usersPlaces}
+      componentArr.push(<HomeDisplay userLocation={this.state.userLocation} allMarkers ={this.state.allMarkers}
         createMemento={this.createMemento}
         displayMemento={this.displayMemento}
         />)

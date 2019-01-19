@@ -11,10 +11,10 @@ const logger = (req, res, next) => {
   next();
 };
 
-// // get specific story
-// router.post('/' , storyController.getStory, (req,res) => {
-//   res.json()
-// })
+// get specific story
+router.post('/' , storyController.getStory, (req,res) => {
+  res.json(res.locals.storyId);
+})
 
 // get all story
 router.post('/all', storyController.getAllNearby, storyController.getInnerAndOuterPins, (req, res) => {
