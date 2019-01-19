@@ -10,6 +10,8 @@ import FetchLocation from './client/components/FetchLocation.js';
 export default class App extends React.Component {
   
   state={
+    title:'',
+    story:'',
     userLocation: null,
     usersPlaces: [],
     viewHome: true,
@@ -64,6 +66,46 @@ displayMemento = () =>{
   })
 }
 
+//Handler for updating form data on create memento
+updateValue = (text, field) => {
+  if(field == 'title'){
+    this.setState({
+      title: text,
+    })
+  }
+  if(field == 'story'){
+    this.setState({
+      story: text,
+    })
+  }
+}
+
+//Handler for submitting a new memento
+submit = () => {
+  let collection ={};
+  collection.title = this.state.title;
+  collection.story = this.state.story;
+  console.log("memento form data:", collection)
+
+  this.displayHome();
+
+  //Fetch-POST request
+  // var url = '';
+  // var data = collection;
+
+  // fetch(url, {
+  //   method: 'POST', // or 'PUT'
+  //   body: JSON.stringify(data), // data can be `string` or {object}!
+  //   headers:{
+  //     'Content-Type': 'application/json'
+  //   }
+  // }).then(res => res.json())
+  // .then(response => console.log('Success:', JSON.stringify(response)))
+  // .catch(error => console.error('Error:', error));
+}
+
+
+
   render() {
     //Conditional Render statement
     let componentArr = [];
@@ -77,7 +119,7 @@ displayMemento = () =>{
         createMemento={this.createMemento}
         displayMemento={this.displayMemento}
         />)
-      componentArr.push(<CreateDisplay displayHome={this.displayHome}/>)
+      componentArr.push(<CreateDisplay displayHome={this.displayHome} updateValue={this.updateValue} submit={this.submit}/>)
     }else if(this.state.viewMemento){
       componentArr.push(<HomeDisplay userLocation={this.state.userLocation} usersPlaces ={this.state.usersPlaces}
         createMemento={this.createMemento}
