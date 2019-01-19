@@ -1,6 +1,7 @@
-/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable */
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Constants } from 'expo';
 
 export default class FetchButton extends Component {
   constructor(props) {
@@ -11,7 +12,10 @@ export default class FetchButton extends Component {
 
   handleFetch() {
     console.log('clicked!');
-    fetch(this.props.api)
+    const { api } = this.props;
+    console.log(`attempting fetch to: ${api}`);
+
+    fetch(api)
       .then((data) => {
         console.log('response from server!');
         console.log(data);
