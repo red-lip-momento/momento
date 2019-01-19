@@ -9,6 +9,11 @@ const storyRouter = require('./routers/storyRouter.js');
 
 // apply global middlewares
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  res.locals.error = '';
+  res.locals.storyData = {};
+  next();
+});
 
 // initial test route
 app.get('/', (req, res) => res.send('👄🦇🐠'));
@@ -19,15 +24,12 @@ app.use('/story', storyRouter);
 
 // NO ROUTES BELOW HERE
 // !! ERROR HANDLER !! //
-// in middleware, pass a string to next
-// that string will be err -> selects specific error
-// any error messages that are returned from db, etc.
-// are stored on res.locals.error in middleware
 app.use((err, req, res, next) => {
-  const log = res.local.error;
+  const log = res.locals.error;
+
   switch (err) {
     default:
-      console.log(`Unhandled error event: ${log}`);
+      console.log(`Unhandled error event: ${log} ${err}`);
       res.status(500).send('Server encountered an error');
   }
 });
