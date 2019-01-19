@@ -28,6 +28,9 @@
       "config": {
         "googleMapsApiKey": "AIzaSyBmmaik1ATZLMQj0uCJ5_blkFZv2QsIWTk"
       }
+    },
+    "extra": {
+      "test": "Here's some stupid stuff for you to look at"
     }
   }
 }
