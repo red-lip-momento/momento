@@ -75,13 +75,13 @@ class ViewDisplay extends Component {
             <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
               <View> 
                 <Text style={styles.flipTitle}>
-                  {momento.title}
+                I love pizza and tacos
                 </Text>
               </View>
             </Animated.View>
             <Animated.View style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}>
               <Text style={styles.flipText}>
-                {momento.story}
+              🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮
               </Text>
             </Animated.View>
           </TouchableOpacity>
