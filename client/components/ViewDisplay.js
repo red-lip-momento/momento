@@ -61,7 +61,7 @@ class ViewDisplay extends Component {
 
           <Modal 
           isVisible={this.state.isModalVisible} 
-          onSwipe={() => this.setState({ isModalVisible: false })}
+          onSwipe={() => this.props.displayHome()}
           swipeDirection="left"
 
         >

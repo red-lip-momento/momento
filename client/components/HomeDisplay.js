@@ -7,20 +7,53 @@ class HomeDisplay extends Component {
     constructor(props){
         super(props);
     }
+
+    /*
+        props {
+            userLocation: {
+                latitiude: 1232,
+                longitude: 12321
+            },
+            usersPlaces: [],
+            createMemento: function() {
+                does xxyz 
+            }
+        }
+
+
+
+    */
      render() { 
+        let userLocationMarker = null;
+        if (this.props.userLocation) {
+          userLocationMarker = <MapView.Marker 
+          coordinate={this.props.userLocation} 
+        //   image={require('../../assets/small-gift-box.png')}
+          onPress = {this.props.displayMemento}
+          />;
+         
+        }
+        const usersMarkers = this.props.usersPlaces.map(userPlace => (
+          <MapView.Marker coordinate={userPlace} key={userPlace.id} />
+        ));
+        
+        // const { uLatitude, uLongitude} = this.props.userLocation;
+        
          return (
              <View style={styles.mapContainer}>
                 <MapView
                     style= {styles.map}
                     provider="google"
                     initialRegion={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
+                    latitude: 33.988,
+                    longitude: -118.47099,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                     }}
                 > 
-                <TouchableOpacity style={styles.button}>
+                {userLocationMarker}
+                {usersMarkers}
+                <TouchableOpacity style={styles.button} onPress={this.props.createMemento}>
                     <Text style={styles.text}> Leave a Memento </Text>
                 </TouchableOpacity>
             </MapView>

@@ -5,7 +5,7 @@ import { TextInput } from 'react-native-gesture-handler';
 
 class CreateDisplay extends Component {
   state = {
-    isModalVisible: false,
+    isModalVisible: true,
     text:''
   };
 
@@ -21,7 +21,7 @@ class CreateDisplay extends Component {
         
         <Modal 
           isVisible={this.state.isModalVisible} 
-          onSwipe={() => this.setState({ isModalVisible: false })}
+          onSwipe={() =>this.props.displayHome() }
           swipeDirection="left"
         >
           <View style={{ flex: 1, backgroundColor:'white' }}>
@@ -37,7 +37,7 @@ class CreateDisplay extends Component {
               onChangeText = {(text)=> this.setState({text:text})} />
 
             </View>
-            <TouchableOpacity onPress={this._toggleModal}>
+            <TouchableOpacity onPress={this.props.displayHome }>
               <Text>Submit</Text>
             </TouchableOpacity>
           </View>
