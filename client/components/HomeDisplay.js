@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, Text, View, TouchableOpacity,
+  Dimensions, StatusBar, StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
-import { MapView } from 'expo';
+import { Constants, MapView } from 'expo';
 /* eslint-disable */
 class HomeDisplay extends Component {
   //  state = {  }
@@ -81,27 +81,47 @@ class HomeDisplay extends Component {
   }
 }
 
+const primary = 'rgba(175, 214, 238, 1)';
+
 const styles = StyleSheet.create({
   mapContainer: {
-    //  flex: 1,
-    justifyContent: 'center',
     width: '100%',
     height: '100%',
-    marginTop: '10%',
+  },
+  header: {
+    padding: 12,
+    paddingTop: Constants.statusBarHeight + 10,
+    backgroundColor: primary,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    color: 'white'
   },
   map: {
-    height: '100%',
-    width: '100%',
+    
+    // height: Dimensions.get('screen').height*0.9,
+    display: 'flex',
+    flex: 1,
+    alignContent: 'flex-end',
+    flexDirection: 'column',
+    // alignItems: 'center',
   },
   button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    height: '8%',
-    width: '70%',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: primary,
+    height: '10%',
+    width: '100%',
     padding: 5,
+    // borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   text: {
-    fontSize: 25,
+    fontSize: 18,
+    color: 'white',
   },
 });
 export default HomeDisplay;

@@ -28,6 +28,8 @@ class ViewDisplay extends Component {
         outputRange: ['180deg', '360deg']
       })
     }
+
+
     flipCard() {
       if (this.value >= 90) {
         Animated.spring(this.animatedValue,{
@@ -55,6 +57,9 @@ class ViewDisplay extends Component {
           { rotateY: this.backInterpolate }
         ]
       }
+
+      const momento = this.props.current;
+      console.log('current momento:', momento);
       return (
         <View>
         <Text>Hello View Display</Text>
@@ -66,23 +71,17 @@ class ViewDisplay extends Component {
 
         >
         <View  style={styles.container}>
-          {/* style={{ height: 'auto', width: 'auto',backgroundColor:'white' }}> */}
           <TouchableOpacity onPress={() => this.flipCard()}>
             <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
               <View> 
-              <Text style={styles.flipText}>
-                Title
-              </Text>
-
+                <Text style={styles.flipTitle}>
+                  {momento.title}
+                </Text>
               </View>
-              
-              <Text style={styles.flipText}>
-                Hello this is my story and I want to see how this looks like when it's a really long sotry so here I am typing away like a maniac. I realize I can copy the lorem ipsum text, but that's boring so here I am rambling away. It's wild. I hope this looks really nice. This is a reasonable text right? idk
-              </Text>
             </Animated.View>
             <Animated.View style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}>
               <Text style={styles.flipText}>
-                This text is flipping on the back.
+                {momento.story}
               </Text>
             </Animated.View>
           </TouchableOpacity>
@@ -103,14 +102,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: "center",
     justifyContent: "center",
-    
+    // borderStyle: 'solid',
+    // borderColor: 'red',
+    // borderWidth: 1,
   },
   flipCard: {
     width: '90%',
-    height: '90%',
+    height: '75%',
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'blue',
+    backgroundColor: 'rgba(255, 255, 255, 0.59)',
     backfaceVisibility: 'hidden',
     margin: '5%'
   },
@@ -118,6 +120,18 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     position: "absolute",
     top: 0,
+  },
+  flipTitle: {
+    width: 'auto',
+    fontSize: 36,
+    margin: 30,
+    // padding: 50,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    // borderStyle: 'solid',
+    // borderColor: 'red',
+    // borderWidth: 1,
   },
   flipText: {
     width: '90%',
