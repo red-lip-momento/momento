@@ -89,23 +89,28 @@ submit = () => {
   let collection ={};
   collection.title = this.state.title;
   collection.story = this.state.story;
-  console.log("memento form data:", collection)
+  collection.lat = this.state.userLocation.latitude;
+  collection.lng = this.state.userLocation.longitude;
+
+  console.log("memento form data:", collection);
 
   this.displayHome();
 
   //Fetch-POST request
-  // var url = '';
-  // var data = collection;
+  var url = 'http://192.168.0.95:3000/story/create';
+  var data = collection;
 
-  // fetch(url, {
-  //   method: 'POST', // or 'PUT'
-  //   body: JSON.stringify(data), // data can be `string` or {object}!
-  //   headers:{
-  //     'Content-Type': 'application/json'
-  //   }
-  // }).then(res => res.json())
-  // .then(response => console.log('Success:', JSON.stringify(response)))
-  // .catch(error => console.error('Error:', error));
+
+  fetch(url, {
+    method: 'POST', // or 'PUT'
+    headers:{
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data), // data can be `string` or {object}!
+  }).then(res => res.json())
+  .then(response => console.log('Success:', response))
+  .catch(error => console.log('Error:', JSON.stringify(error)));
 }
 
 
