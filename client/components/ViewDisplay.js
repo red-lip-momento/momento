@@ -1,8 +1,8 @@
 import React,  { Component } from 'react';
-import { StyleSheet, Text, View,   TouchableOpacity, } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Animated } from 'react-native';
 import FlipCard from 'react-native-flip-card'
-import { Gravity } from 'expo-sensors/build/DeviceMotion';
 import Modal from "react-native-modal";
+
 
 
 
@@ -12,76 +12,120 @@ class ViewDisplay extends Component {
       isModalVisible: true,
 
      }
+
+     componentWillMount() {
+      this.animatedValue = new Animated.Value(0);
+      this.value = 0;
+      this.animatedValue.addListener(({ value }) => {
+        this.value = value;
+      })
+      this.frontInterpolate = this.animatedValue.interpolate({
+        inputRange: [0, 180],
+        outputRange: ['0deg', '180deg'],
+      })
+      this.backInterpolate = this.animatedValue.interpolate({
+        inputRange: [0, 180],
+        outputRange: ['180deg', '360deg']
+      })
+    }
+    flipCard() {
+      if (this.value >= 90) {
+        Animated.spring(this.animatedValue,{
+          toValue: 0,
+          friction: 8,
+          tension: 10
+        }).start();
+      } else {
+        Animated.spring(this.animatedValue,{
+          toValue: 180,
+          friction: 8,
+          tension: 10
+        }).start();
+      }
+  
+    }
     render() { 
-        return (
-      <View style={styles.outer}>
+      const frontAnimatedStyle = {
+        transform: [
+          { rotateY: this.frontInterpolate}
+        ]
+      }
+      const backAnimatedStyle = {
+        transform: [
+          { rotateY: this.backInterpolate }
+        ]
+      }
+      return (
+        <View>
         <Text>Hello View Display</Text>
 
           <Modal 
           isVisible={this.state.isModalVisible} 
           onSwipe={() => this.setState({ isModalVisible: false })}
           swipeDirection="left"
-          
-        >
-        <View >
-          {/* style={{ height: 'auto', width: 'auto',backgroundColor:'white' }}> */}
-        <FlipCard 
-            style={styles.card}
-            friction={6000000}
-            perspective={1000}
-            flipHorizontal={true}
-            flipVertical={false}
-            flip={false}
-            clickable={true}
-            // alignWidth={true}
-            // alignHeight={true}
-            // useNativeDriver={true}
-            onFlipEnd={(isFlipEnd)=>{console.log('isFlipEnd', isFlipEnd)}}
-          >
-            {/* Face Side */}
-            <View style={styles.face}>
-              <Text>The Face</Text>
-            </View>
-            {/* Back Side */}
-            <View style={styles.back}>
-              <Text>The Back</Text>
-            </View>
-          </FlipCard>
-          </View>
-        </Modal>
-      </View>
 
-            
-         );
+        >
+        <View  style={styles.container}>
+          {/* style={{ height: 'auto', width: 'auto',backgroundColor:'white' }}> */}
+          <TouchableOpacity onPress={() => this.flipCard()}>
+            <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
+              <View> 
+              <Text style={styles.flipText}>
+                Title
+              </Text>
+
+              </View>
+              
+              <Text style={styles.flipText}>
+                Hello this is my story and I want to see how this looks like when it's a really long sotry so here I am typing away like a maniac. I realize I can copy the lorem ipsum text, but that's boring so here I am rambling away. It's wild. I hope this looks really nice. This is a reasonable text right? idk
+              </Text>
+            </Animated.View>
+            <Animated.View style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}>
+              <Text style={styles.flipText}>
+                This text is flipping on the back.
+              </Text>
+            </Animated.View>
+          </TouchableOpacity>
+
+          </View>
+          
+  
+        </Modal>
+</View>
+      );
     }
 
 }
 
 const styles = StyleSheet.create({
-  // outer: {
-  //    height: '100%',
-  //    width: 800
-  // },
-  card:{
-    // display: 'flex',
-    // flex: 1,
-    width: 300,
-    backgroundColor: 'orange',
-    zIndex: 10,
-    height:'100%'
-
+  container: {
+    display: 'flex',
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+    
   },
-  face:{
-    height: 300,
-    width: 300,
-    backgroundColor: 'pink'
+  flipCard: {
+    width: '90%',
+    height: '90%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'blue',
+    backfaceVisibility: 'hidden',
+    margin: '5%'
   },
-  back:{
-    height: 300,
-    width: 300,
-    backgroundColor: 'blue'
+  flipCardBack: {
+    backgroundColor: "red",
+    position: "absolute",
+    top: 0,
+  },
+  flipText: {
+    width: '90%',
+    fontSize: 18,
+    padding: 1,
+    color: 'white',
+    fontWeight: 'bold',
   }
-  
 })
  
 export default ViewDisplay;
