@@ -8,6 +8,11 @@ const storyRouter = require('./routers/storyRouter.js');
 
 
 // apply global middlewares
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 app.use(bodyParser.json());
 app.use((req, res, next) => {
   res.locals.error = '';
@@ -16,7 +21,12 @@ app.use((req, res, next) => {
 });
 
 // initial test route
-app.get('/', (req, res) => res.send('👄🦇🐠'));
+app.get('/',
+  (req, res, next) => {
+    console.log('hit server');
+    next();
+  },
+  (req, res) => res.send('👄🦇🐠'));
 
 // route requests to '/story' to storyRouter
 app.use('/story', storyRouter);

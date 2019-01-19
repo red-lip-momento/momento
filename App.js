@@ -1,4 +1,5 @@
 import React from 'react';
+import { Constants } from 'expo';
 import { StyleSheet, Text, View } from 'react-native';
 import HomeDisplay from './client/components/HomeDisplay.js'
 import CreateDisplay from './client/components/CreateDisplay.js'
@@ -14,7 +15,9 @@ export default class App extends React.Component {
     usersPlaces: [],
     viewHome: true,
     viewCreate: false,
-    viewMemento: false
+    viewMemento: false,
+    // api: '192.168.0.95/3000/story',
+    api: `http://${Constants.manifest.debuggerHost.split(':').shift().concat(':3000')}`,
   }
 
   //Handler for getting user location
@@ -33,6 +36,7 @@ getUserLocationHandler = () => {
 }
 componentDidMount() {
   this.getUserLocationHandler();
+  console.log(Constants.manifest.packagerOpts);
 }
 
 
@@ -76,6 +80,7 @@ displayMemento = () =>{
       componentArr.push(<HomeDisplay userLocation={this.state.userLocation} usersPlaces ={this.state.usersPlaces}
         createMemento={this.createMemento}
         displayMemento={this.displayMemento}
+        api={this.state.api}
         />)
       componentArr.push(<CreateDisplay displayHome={this.displayHome}/>)
     }else if(this.state.viewMemento){
