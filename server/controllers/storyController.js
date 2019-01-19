@@ -5,14 +5,14 @@ const story = {};
 story.getAllNearby = (req, res, next) => {
   const {lat, lng} = req.body
   // Look for for all stories within 1 longitude and latitude
-  const latUp = lat + 1;
-  const latDown = lat - 1;
-  const lngRight = lng +1;
-  const lngLeft = lng -1;
+  const latUp = lat + .1;
+  const latDown = lat - .1;
+  const lngRight = lng + .1;
+  const lngLeft = lng - .1;
   console.log(latUp, latDown, lngRight, lngLeft)
   db.query('SELECT * FROM story WHERE lat BETWEEN $1 AND $2 AND lng BETWEEN $3 AND $4', [latDown, latUp, lngLeft,lngRight])
   .then(data => {
-    console.log('All data within 1 lat/long: ', data);
+    console.log('All data within .1 lat/long: ', data);
     res.locals.allPins = data;
     next();
   })
