@@ -18,6 +18,14 @@ export default class App extends React.Component {
     viewHome: true,
     viewCreate: false,
     viewMemento: false,
+    currentMomento: {
+      title: 'I love pizza and tacos',
+      story: '🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮',
+      storyId: 13,
+      lat: 33.563760,
+      lng: -118.241900,
+      createdAt: '2019-01-19 10:42:00+00',
+    },
     api: 'https://brave-sloth-74.localtunnel.me', // option 1: need start localtunnel before react dev server
     // option 2: the line below will resolve to the IP address of the computer at runtime.
     // if the express server is also running at port 3000
@@ -84,12 +92,53 @@ displayHome = () => {
 }
 
 //Handler for displaying the View Momento Screen
-displayMemento = () =>{
+displayMemento = (id) =>{
+
+  var url = 'http://192.168.0.95:3000/story/';
+console.log("THE ID IS " ,id)
+
+ /* fetch(url, {
+    method: 'POST', // or 'PUT'
+    headers:{
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(id), // data can be `string` or {object}!
+  }).then(res => res.json())
+  .then(response => {
+    this.setState({
+      currentMomento: {
+        title: 'I love pizza and tacos',
+        story: '🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮',
+        storyId: 13,
+        lat: 33.563760,
+        lng: -118.241900,
+        createdAt: '2019-01-19 10:42:00+00',
+      },
+      viewHome:false,
+      viewCreate:false,
+      viewMemento:true
+    })
+    console.log('Success:', response);
+  })
+  .catch(error => console.log('Error:', JSON.stringify(error)));
+  */
   this.setState({
+    currentMomento: {
+      title: 'I love pizza and tacos',
+      story: '🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮🍕🍕🍕🌮🌮',
+      storyId: 13,
+      lat: 33.563760,
+      lng: -118.241900,
+      createdAt: '2019-01-19 10:42:00+00',
+    },
     viewHome:false,
     viewCreate:false,
     viewMemento:true
   })
+  // this.setState({
+ 
+  // })
 }
 
 //Handler for updating form data on create memento
@@ -181,9 +230,11 @@ getAllStories = (postion) => {
         />)
       componentArr.push(<CreateDisplay displayHome={this.displayHome} updateValue={this.updateValue} submit={this.submit}/>)
     }else if(this.state.viewMemento){
+      console.log("CURRENT MOMENTO: " ,this.state.currentMomento);
       componentArr.push(<HomeDisplay userLocation={this.state.userLocation} allMarkers ={this.state.allMarkers}
         createMemento={this.createMemento}
         displayMemento={this.displayMemento}
+        current={this.state.currentMomento}
         />)
       componentArr.push(<ViewDisplay displayHome={this.displayHome}/>)
     }

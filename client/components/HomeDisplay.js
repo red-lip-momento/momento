@@ -10,6 +10,12 @@ class HomeDisplay extends Component {
     super(props);
   }
 
+  handleMarkerPress = (event) => {
+    // console.log("ID" ,event._targetInst.return.key);
+    const id = event._targetInst.return.key;
+    this.props.displayMemento(id);
+  } 
+
   render() {
 
     let markers =[];
@@ -18,18 +24,21 @@ class HomeDisplay extends Component {
       let {innerPins, outerPins} = this.props.allMarkers;
 
       innerPins.map(pins => {
+        // console.log(pins);
         let coord = {
           latitude: pins.lat,
           longitude: pins.lng,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421
         }
+        let id = (pins._id).toString();
         markers.push(
         <MapView.Marker 
         coordinate={coord} 
         key={pins._id} 
-        pinColor="red" 
-        onPress={this.props.displayMemento} 
+        pinColor="red"
+        _id={id}
+        onPress={(event) => this.handleMarkerPress(event)}
         />);
 
       });
@@ -45,6 +54,7 @@ class HomeDisplay extends Component {
         <MapView.Marker 
         coordinate={coord} 
         key={pins._id} 
+        id={pins._id}
         pinColor="blue" 
         />);
 
